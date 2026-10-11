@@ -905,6 +905,13 @@ COPY_CASES: list[tuple[str, str, str, str]] = [
 #
 # THE LAST CASE IS THE ONE THAT KEEPS THE REST HONEST: the file as it stands must be ACCEPTED. A
 # guard that refuses everything would pass all nineteen cases above and be useless.
+# One character past MAX_SENTENCE (160), so the case proves the cap bites at the boundary rather
+# than somewhere well beyond it.
+GLOSSARY_SAY_OVER_CAP = (
+    "A balance point 1.5 million km from Earth on the side away from the Sun, where a telescope "
+    "can keep the Earth and Sun behind it and stay cold. more words here to"
+)
+
 LONG_SENTENCE = (
     "It is very old and it is very far away and it has been going for a long time and it will "
     "go on for a long time after everybody reading this has stopped, which is the sort of "
@@ -947,6 +954,13 @@ TOUR_CASES: list[tuple[str, str, str]] = [
      "            " + LONG_SENTENCE),
     ("a card that uses jargon registry/glossary.yaml cannot explain",
      "A car, going round the Sun", "A car, going round its own semi-major axis"),
+    # A glossary say is capped at MAX_SENTENCE the way a card sentence is: the card prints the
+    # definition beside the sentence that sent the reader to it, so a definition past the cap is
+    # the same defect. 161 characters is one past the cap, where 160 must still pass.
+    ("a glossary say longer than the cap allows",
+     "A balance point 1.5 million km from Earth on the side away from the Sun, where a telescope "
+     "can keep the Earth and Sun behind it and stay cold.",
+     GLOSSARY_SAY_OVER_CAP),
     ("a trip with fewer stops than its own floor",
      "    min_stops: 3\n", "    min_stops: 8\n"),
     # Since spec 0028 step 8 a trip may live on any world or any rung of the ladder (ui/trip.js
